@@ -12,6 +12,7 @@ int readings[numReadings];      // the readings from the analog input
 int readIndex = 0;              // the index of the current reading
 int total = 0;                  // the running total
 int average = 0;                // the average
+int value = 0;
 
 void setup()                    
 {
@@ -25,10 +26,16 @@ void setup()
 
 void loop()                    
 {
-  // read from the sensor:
-  readings[readIndex] = sensor.capacitiveSensor(20);
-  total = total + readings[readIndex];
+  value = sensor.capacitiveSensor(50);
   
+  // send it to the computer as ASCII digits
+  Serial.print( "sensor " );
+  Serial.println(value);
+
+  // read from the sensor:
+  readings[readIndex] = value;
+  total = total + readings[readIndex];
+
   // advance to the next position in the array:
   readIndex = readIndex + 1;
   
@@ -37,7 +44,7 @@ void loop()
       
     // calculate the average:
     average = total / numReadings;
-    
+   
     // send it to the computer as ASCII digits
     Serial.print( "average " );
     Serial.println(average);
